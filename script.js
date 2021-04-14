@@ -18,7 +18,7 @@ function addToLibrary() {
         read: bookRead()
     };
     myLibrary.push(book);
-    document.querySelectorAll("form").reset;
+    document.querySelector("form").reset();
 }
 
 function bookRead() {
