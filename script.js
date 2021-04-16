@@ -31,9 +31,9 @@ function addToLibrary() {
 
 function bookRead() {
     if (document.getElementById("read").checked) {
-        return "<span>Status:</span> Read";
+        return true;
     } else {
-        return "<span>Status:</span> Not yet read"
+        return false;
     }
 }
 
@@ -58,14 +58,17 @@ function displayBooks() {
     console.log(myLibrary)
     let content = document.createElement('div');
     content.classList.add("content");
-    content.setAttribute("id", i);
-    content.innerHTML = `<span>Title:</span> ${ucFirst(myLibrary[i].title)} <br><br><span>Author:</span> ${ucFirst(myLibrary[i].author)} <br><br><span>No. of Pages</span> ${myLibrary[i].pages} <br><br> ${myLibrary[i].read}<br><br>`;
+    content.innerHTML = `<span>Title:</span> ${ucFirst(myLibrary[i].title)} <br><br><span>Author:</span> ${ucFirst(myLibrary[i].author)} <br><br><span>No. of Pages:</span> ${myLibrary[i].pages} <br><br> <span>Status:</span> <span class="status">${read()} <span> <br><br>`;
     container.appendChild(content);
+    let readbutton = document.createElement('button');
+    readbutton.classList.add("editbutton");
+    readbutton.innerHTML = "Read"
+    content.appendChild(readbutton);
     let removebutton = document.createElement('button')
     removebutton.classList.add("removebutton");
-    removebutton.setAttribute("id", i)
     removebutton.innerHTML = "Remove";
     content.appendChild(removebutton);
+
 }
 
 //remove button maken 
@@ -77,8 +80,21 @@ container.addEventListener("click", (event) => {
         const container = content.parentNode;
         if (button.textContent === "Remove") {
             container.removeChild(content);
+        } else if (button.textContent === "Read") {
+            const span1 = event.target.parentNode.querySelector(".status")
+            if (span1.textContent == "Not read") {
+                span1.innerHTML = "Read<br><br>";
+            } else {
+                span1.innerHTML = "Not read<br><br>";
+            }
         }
     }
-}
-)
+})
 //read button maken
+function read() {
+    if (myLibrary[i].read === true) {
+        return "Read"
+    } else {
+        return "Not read"
+    }
+}

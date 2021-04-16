@@ -48,3 +48,9 @@ flex-wrap: wrap;
 .content span {
     font-weight: bold;
 }
+.content .status {
+    font-weight: normal ;
+}
+.content button{
+    margin: 0px 5px;
+}
