@@ -19,16 +19,21 @@ function addToLibrary() {
         pages: document.getElementById("pages").value,
         read: bookRead()
     };
-    myLibrary.push(book);
-    document.querySelector("form").reset();
-    displayBooks();
+    if (book.title === "" || book.author === "" || book.pages === "") {
+        alert("Please fill in all forms");
+        return;
+    } else {
+        myLibrary.push(book);
+        document.querySelector("form").reset();
+        displayBooks();
+    }
 }
 
 function bookRead() {
     if (document.getElementById("read").checked) {
-        return "true";
+        return "<span>Status:</span> Read";
     } else {
-        return "false"
+        return "<span>Status:</span> Not yet read"
     }
 }
 
@@ -43,12 +48,37 @@ function bookRead() {
 //     }
 // }
 
-//Werkt, maar wat als array veranderd?
-function displayBooks() {
+function ucFirst(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
 
+//voegt boek toe welke op beeld komt
+function displayBooks() {
+    i = myLibrary.length - 1;
+    console.log(myLibrary)
     let content = document.createElement('div');
     content.classList.add("content");
-    content.textContent = `${myLibrary[i].title} + ${myLibrary[i].author} + ${myLibrary[i].pages} + ${myLibrary[i].read}`;
+    content.setAttribute("id", i);
+    content.innerHTML = `<span>Title:</span> ${ucFirst(myLibrary[i].title)} <br><br><span>Author:</span> ${ucFirst(myLibrary[i].author)} <br><br><span>No. of Pages</span> ${myLibrary[i].pages} <br><br> ${myLibrary[i].read}<br><br>`;
     container.appendChild(content);
-    i += 1;
+    let removebutton = document.createElement('button')
+    removebutton.classList.add("removebutton");
+    removebutton.setAttribute("id", i)
+    removebutton.innerHTML = "Remove";
+    content.appendChild(removebutton);
 }
+
+//remove button maken 
+//checken waarom dit werkt: https://www.youtube.com/watch?v=MGstKhPoiho
+container.addEventListener("click", (event) => {
+    if (event.target.tagName === "BUTTON") {
+        const button = event.target;
+        const content = button.parentNode;
+        const container = content.parentNode;
+        if (button.textContent === "Remove") {
+            container.removeChild(content);
+        }
+    }
+}
+)
+//read button maken
